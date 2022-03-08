@@ -6,8 +6,6 @@ import java.util.*;
 import org.apache.pdfbox.pdmodel.*;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-
-
 public class Methods_Class {
 
 	Scanner sc = new Scanner(System.in);
@@ -39,22 +37,29 @@ public class Methods_Class {
 	public void writer(ArrayList<Pizza> list) throws IOException {
 		File file = new File("/home/v2stech/Documents/Pizza.pdf");
 		PDDocument doc = PDDocument.load(file);
-		
+
 		PDPage page = doc.getPage(0);
 		PDPageContentStream contentStream = new PDPageContentStream(doc, page);
-	
+
 		contentStream.beginText();
 		contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
 		contentStream.setLeading(14.5f);
 		contentStream.newLineAtOffset(25, 700);
-		
+
 		contentStream.showText("Order_Id  Pizza Name Quantity Price Amount");
 		contentStream.newLine();
-		
-		for (Pizza pizza : list) {
-			contentStream.showText(pizza.getOrder_Id()+" "+pizza.getPizza_Name()+" "+pizza.getQuantity()+" "+pizza.getPrice()+" "+pizza.getAmount());
-			contentStream.newLine();
-		}
+
+		list.forEach(
+				(pizza)->{
+					try {
+						contentStream.showText(pizza.getOrder_Id() + " " + pizza.getPizza_Name() + " " + pizza.getQuantity() + " "
+						+ pizza.getPrice() + " " + pizza.getAmount());
+						contentStream.newLine();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				);
 		
 		contentStream.close();
 
@@ -84,7 +89,7 @@ public class Methods_Class {
 				System.out.println(del_Order + " is removed");
 				flag = false;
 			}
-			if(list.isEmpty()) {
+			if (list.isEmpty()) {
 				break;
 			}
 			break;
